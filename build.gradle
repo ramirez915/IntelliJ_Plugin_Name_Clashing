@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '0.4.16'
+    id  'idea'
+}
+
+group 'org.cs474AngelRamirez'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    // JUnit4
+    testCompile 'junit:junit:4.12'
+    //slf4j logger
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+    //logback
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    //logging to a file
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    //configuration
+    compile group: 'com.typesafe', name: 'config', version: '1.4.0'
+}
+
+// See https://github.com/JetBrains/gradle-intellij-plugin/
+intellij {
+    version '2019.3.3'
+}
+patchPluginXml {
+    changeNotes """
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>"""
+}
