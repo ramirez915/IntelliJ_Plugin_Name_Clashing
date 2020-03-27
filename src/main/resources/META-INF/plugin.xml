@@ -1,0 +1,26 @@
+<idea-plugin>
+    <id>org.cs474AngelR.DePaCoGPlugin</id>
+    <name>DePaCoG</name>
+    <version>1.0-SNAPSHOT</version>
+    <vendor email="jramir93@uic.edu">ForCS474</vendor>
+
+    <description><![CDATA[
+    Will use DePaCoG project to create a plugin
+    ]]></description>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+
+        <action id="actions.DePaCoGAction" class="actions.DePaCoGAction" text="DePaCoG" description="Generates code for a design pattern" icon="/icon/pluginIcon.png">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+    </actions>
+</idea-plugin>
