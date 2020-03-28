@@ -1,5 +1,7 @@
 package designPatterns;
 
+import consts.MyConsts;
+
 import java.util.ArrayList;
 
 /*
@@ -15,6 +17,19 @@ public class Container {
     public boolean extend;
     public String text;         // whats going into the file
 
+    // constructor used when a package is needed
+    public Container(String type, String name, String partOf, int functionAmount, String packageName){
+        this.type = type;
+        this.name = name;
+        this.partOf = partOf;
+        this.dirName = "";
+        this.functionAmount = functionAmount;
+        this.implement = false;
+        this.extend = false;
+        this.text = String.format(MyConsts.PackageStub,packageName);    // sets the name of the package to container
+    }
+
+    //constructor used when a package is not needed
     public Container(String type, String name, String partOf, int functionAmount){
         this.type = type;
         this.name = name;

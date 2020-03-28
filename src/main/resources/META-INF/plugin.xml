@@ -1,11 +1,11 @@
 <idea-plugin>
-    <id>org.cs474AngelR.DePaCoGPlugin</id>
+    <id>org.cs474AngelRamirez.DePaCoGPluginWithNameClash</id>
     <name>DePaCoG</name>
     <version>1.0-SNAPSHOT</version>
     <vendor email="jramir93@uic.edu">ForCS474</vendor>
 
     <description><![CDATA[
-    Will use DePaCoG project to create a plugin
+    DePaCoG plugin with name clash functionality
     ]]></description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
@@ -19,7 +19,7 @@
     <actions>
         <!-- Add your actions here -->
 
-        <action id="actions.DePaCoGAction" class="actions.DePaCoGAction" text="DePaCoG" description="Generates code for a design pattern" icon="/icon/pluginIcon.png">
+        <action id="actions.DePaCoGAction" class="actions.DePaCoGAction" text="DePaCoG" description="Generates code for a design pattern and checks for name clashes" icon="/icon/pluginIcon.png">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
     </actions>

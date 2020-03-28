@@ -43,7 +43,8 @@ public class Builder extends DesignPatternObj {
     public void createBuilder(){
         //create main class
         int totalFunctionsNeeded = this.mandatoryAttributeAmount + this.optionalAttributeAmount;
-        Container mainClass = new Container("regular class",this.mainClassName,"",totalFunctionsNeeded);
+        Container mainClass = new Container("regular class",this.mainClassName,
+                "",totalFunctionsNeeded,this.mainClassName);
         makeMainClassStub(mainClass);
     }
 
@@ -69,7 +70,7 @@ public class Builder extends DesignPatternObj {
         }
 
         //private constructor
-        mainClass.text += String.format(MyConsts.PrivateConstructorSig,mainClass.name);
+        mainClass.text += String.format(MyConsts.PrivateConstructorWParamSig,mainClass.name,this.mainClassName +"Builder" + " b");
 
         // now make nested static class
         Container nestedStaticClass = createNestedStaticClass();

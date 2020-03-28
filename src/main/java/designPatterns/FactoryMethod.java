@@ -22,7 +22,7 @@ overridden abstract functions (ask for variables and functions???)
 * create factory with switch to return the created subclasses
 ---------------------------
  */
-public class FactoryMethod extends DesignPatternObj{
+public class FactoryMethod extends DesignPatternObj {
     private String mainAbstractClassName;
     private int totalAbstractMethods;
     private int totalRegularMethods;
@@ -51,7 +51,8 @@ public class FactoryMethod extends DesignPatternObj{
      */
     public void createFactoryMethod(){
         //create the container for the abstract class and the stub
-        Container mainAbstractClass = new Container("abstract class",this.mainAbstractClassName,"",this.totalFuncs);
+        Container mainAbstractClass = new Container("abstract class",this.mainAbstractClassName,
+                "",this.totalFuncs,this.mainAbstractClassName);
         mainAbstractClass.setDirName(this.path);
         MyConsts.createContainerStub(mainAbstractClass);
 
@@ -79,7 +80,8 @@ public class FactoryMethod extends DesignPatternObj{
         for(int i = this.namesStartIndex; i < this.desPatParams.size(); i++){
             // for these sub classes get the total abstract methods when creating the container
             ArrayList<String> subClassParams = new ArrayList<>();
-            Container subClass = new Container("regular class",this.desPatParams.get(i),this.mainAbstractClassName,this.totalAbstractMethods);
+            Container subClass = new Container("regular class",this.desPatParams.get(i),
+                    this.mainAbstractClassName,this.totalAbstractMethods,this.mainAbstractClassName);
             subClass.setExtend(true);
             subClass.setDirName(this.path);
 
@@ -104,7 +106,8 @@ public class FactoryMethod extends DesignPatternObj{
     for the creation of the corresponding class
      */
     private void createMainFactory(){
-        Container mainFactory = new Container("regular class",this.mainFactoryName,"",1);
+        Container mainFactory = new Container("regular class",this.mainFactoryName,
+                "",1,this.mainAbstractClassName);
         mainFactory.setDirName(this.path);
         MyConsts.createContainerStub(mainFactory);
 

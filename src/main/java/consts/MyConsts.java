@@ -42,7 +42,7 @@ public class MyConsts {
     public static String ClassImplementsSig = consts.getString("CLASS IMPLEMENTS");
     public static String ClassExtendsSig = consts.getString("CLASS EXTENDS");
     public static String ConstructorSig = consts.getString("CONSTRUCTOR");
-    public static String PrivateConstructorSig = consts.getString("PRIVATE CONSTRUCTOR");
+    public static String PrivateConstructorWParamSig = consts.getString("PRIVATE CONSTRUCTOR W PARAM");
 
     public static String VarDeclaration = consts.getString("VAR DECLARATION");
     public static String PrivateVarDeclaration = consts.getString("PRIVATE VAR");
@@ -53,6 +53,9 @@ public class MyConsts {
     public static String SwitchBeginStub = consts.getString("SWITCH");
     public static String CaseReturnNewStub = consts.getString("CASE RETURN NEW");
     public static String DefaultCaseStub = consts.getString("DEFAULT CASE");
+
+    //package
+    public static String PackageStub = consts.getString("PACKAGE");
 
     //plugin addons
     public static String PluginInstructions = consts.getString("instructions");

@@ -39,7 +39,8 @@ public class AbstractFactory extends DesignPatternObj {
 
     public void createAbstractFactory(){
         // create interface for the product we are going to mass produce
-        Container mainInterface = new Container("interface", this.mainInterfaceName, "",totalFuncs);
+        Container mainInterface = new Container("interface", this.mainInterfaceName,
+                "",totalFuncs,this.mainInterfaceName);
         mainInterface.setDirName(this.path);
         MyConsts.createContainerStub(mainInterface);
 
@@ -70,7 +71,8 @@ public class AbstractFactory extends DesignPatternObj {
         for(int i = 2; i < this.desPatParams.size(); i++){
             ArrayList<String> subClassParams = new ArrayList<>();
             name = this.desPatParams.get(i);
-            Container subClass = new Container("regular class",name,this.mainInterfaceName,this.totalFuncs);
+            Container subClass = new Container("regular class",name,
+                    this.mainInterfaceName,this.totalFuncs,this.mainInterfaceName);
             subClass.setImplement(true);
             subClass.setDirName(this.path);
 
@@ -94,7 +96,8 @@ public class AbstractFactory extends DesignPatternObj {
     creates the factory that returns an instance of the main interface
      */
     private void createFactoryInterface(){
-        Container factoryInterface = new Container("interface",this.abstFactoryName,"",1);
+        Container factoryInterface = new Container("interface",this.abstFactoryName,
+                "",1,this.mainInterfaceName);
         ArrayList<String> params = new ArrayList<>();
         params.add(this.mainInterfaceName);
         params.add(this.abstFactoryMethodName);
@@ -114,7 +117,8 @@ public class AbstractFactory extends DesignPatternObj {
     private void createFactoryForConcreteClasses(){
         // 2 because of the position of the names starts at 2 in the design pattern params list
         for(int i = 2; i < this.desPatParams.size(); i++){
-            Container subFactory = new Container("regular class",this.desPatParams.get(i) + "Factory",this.abstFactoryName,1);
+            Container subFactory = new Container("regular class",
+                    this.desPatParams.get(i) + "Factory",this.abstFactoryName,1,this.mainInterfaceName);
             subFactory.setImplement(true);
             subFactory.setDirName(this.path);
 
@@ -134,7 +138,8 @@ public class AbstractFactory extends DesignPatternObj {
     from the given factory
      */
     private void createInterfaceFactoryMaker(){
-        Container mainFactory = new Container("regular class",this.mainInterfaceName+"Factory","",1);
+        Container mainFactory = new Container("regular class",
+                this.mainInterfaceName+"Factory","",1,this.mainInterfaceName);
         // implements and extends are to be set to false since this is going to be a regular class
         mainFactory.setDirName(this.path);
 

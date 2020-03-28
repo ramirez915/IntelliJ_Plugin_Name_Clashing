@@ -58,7 +58,8 @@ public class Template extends DesignPatternObj {
     private void createMainAbstractClass(){
         //start by making the main abstract class
         int overallTotalFunctions = this.totalAbstractFunctions + this.totalFuncs;
-        Container mainAbstractClass = new Container("abstract class",this.mainAbstractClassName,"",overallTotalFunctions);
+        Container mainAbstractClass = new Container("abstract class",this.mainAbstractClassName,
+                "",overallTotalFunctions,this.mainAbstractClassName);
         mainAbstractClass.setDirName(this.path);
         MyConsts.createContainerStub(mainAbstractClass);
 
@@ -115,7 +116,8 @@ public class Template extends DesignPatternObj {
 
         // get the names of the subclasses and create their containers to add to list
         for(int i = index; i < paramList.size(); i++){
-            Container subClass = new Container("regular class",paramList.get(i),this.mainAbstractClassName,this.totalAbstractFunctions);
+            Container subClass = new Container("regular class",paramList.get(i),
+                    this.mainAbstractClassName,this.totalAbstractFunctions,this.mainAbstractClassName);
             subClass.setExtend(true);
             subClass.setDirName(this.path);
             this.subClassList.add(subClass);

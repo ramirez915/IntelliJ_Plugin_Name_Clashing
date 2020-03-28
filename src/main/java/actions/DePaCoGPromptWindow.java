@@ -101,10 +101,10 @@ public class DePaCoGPromptWindow extends DialogWrapper {
         desPatMap.put("3","Factory Method");
         desPatMap.put("4","Template");
 
-        desPatPrompt.put("1",MyConsts.PluginAbstractFactoryInstructions);
-        desPatPrompt.put("2",MyConsts.PluginBuilderInstructions);
-        desPatPrompt.put("3",MyConsts.PluginFactoryInstructions);
-        desPatPrompt.put("4",MyConsts.PluginTemplateInstructions);
+        desPatPrompt.put("1", MyConsts.PluginAbstractFactoryInstructions);
+        desPatPrompt.put("2", MyConsts.PluginBuilderInstructions);
+        desPatPrompt.put("3", MyConsts.PluginFactoryInstructions);
+        desPatPrompt.put("4", MyConsts.PluginTemplateInstructions);
     }
 
     public boolean isValidSelection(String selection){
