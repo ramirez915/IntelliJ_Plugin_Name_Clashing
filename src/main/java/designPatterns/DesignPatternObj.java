@@ -13,7 +13,6 @@ public abstract class DesignPatternObj {
      for the corresponding design pattern
      */
     public abstract void parseDesignPatternParams(ArrayList<String> paramList);
-
     public ArrayList<Container> getSubClassList(){ return subClassList;}
     public ArrayList<String> getDesPatParams(){ return desPatParams;}
 

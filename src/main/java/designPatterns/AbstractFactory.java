@@ -156,6 +156,18 @@ public class AbstractFactory extends DesignPatternObj {
         this.totalFuncs = Integer.parseInt(paramList.get(1));
     }
 
+    /*
+    gives the important positions based on the parameters given by the user
+     */
+    public static ArrayList<Integer> getImportantParamPos(ArrayList<String> params){
+        ArrayList<Integer> positions = new ArrayList<>();
+        positions.add(0);
+        for(int i = 2; i < params.size();i++){
+            positions.add(i);
+        }
+        return positions;
+    }
+
     public String getMainInterfaceName(){ return this.mainInterfaceName;}
     public int getTotalFunctions(){ return this.totalFuncs;}
 }

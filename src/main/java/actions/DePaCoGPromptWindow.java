@@ -16,6 +16,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Set;
 
 /*
 this will contain the main window of DePaCoG
@@ -36,7 +38,7 @@ public class DePaCoGPromptWindow extends DialogWrapper {
 
     final static Logger logger = LoggerFactory.getLogger("DePaCoGPromptWindow");
 
-    // for the main window
+    // for the main window (design pattern selection)
     protected DePaCoGPromptWindow() {
         super(true);
         createDesignPatternHashmaps();
