@@ -8,7 +8,8 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
-import designPatterns.AbstractFactory;
+import designPatterns.Container;
+import designPatterns.DesignPatternObj;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,18 +63,25 @@ public class DePaCoGAction extends com.intellij.openapi.actionSystem.AnAction {
                     ArrayList<String> paramsList = createParameterList(prompt.getSelection());
 
                     //create the selected design pattern
-                    prompt.createSelectedDesignPattern(selectedDesPat,paramsList,path);
+                    DesignPatternObj designPatObj = prompt.createSelectedDesignPattern(selectedDesPat,paramsList,path);
+                    if(designPatObj == null){
+                        logger.error("Design Pattern Object null");
+                        return;
+                    }
 
                     // check for clashes after file has been created
-                    ArrayList<String> filteredParamsList = getImportantDesPatParams(paramsList,selectedDesPat);
+                    ArrayList<String> filteredParamsList = getImportantDesPatParams(designPatObj,selectedDesPat);
 
                     // != means there are clashes
                     // put in log as error and display a message
-                    Hashtable<String,String> clashHashTable = iterateThroughPsiElements(e,filteredParamsList);
+                    Hashtable<String,ArrayList<String>> clashHashTable = iterateThroughPsiElements(e,filteredParamsList);
                     if(clashHashTable != null){                            //BREAKKKKK
-                        String errMsg = createNameClashErrMsg(clashHashTable);
+                        String errMsg = createNameClashErr(clashHashTable);
                         logger.error(errMsg);
                         Messages.showMessageDialog(e.getProject(),errMsg,"ERROR: Name Clash",Messages.getErrorIcon());
+                    }
+                    else{
+                        logger.info("***No name clash with {}***",designPatObj.getDesPatParams().get(0));
                     }
                 }
             }
@@ -82,10 +90,11 @@ public class DePaCoGAction extends com.intellij.openapi.actionSystem.AnAction {
 
     /*
     gets the elements from the src directory (my target directory)
+    must have clicked on the src directory before using the plugin
      */
     private PsiElement[] getPsiElementsFromSrc(AnActionEvent e){
         // gets the contents from the ide
-        IdeView view = e.getData(LangDataKeys.IDE_VIEW);                        // BREAKKKKKK HERERERERE
+        IdeView view = e.getData(LangDataKeys.IDE_VIEW);
 
         // gets all the directories from the view (in this case it would only be the project dir from my tests)
         PsiDirectory[] dir = view.getDirectories();
@@ -104,10 +113,10 @@ public class DePaCoGAction extends com.intellij.openapi.actionSystem.AnAction {
     null if nothing (we're good)
     !null if something was clashing
      */
-    public Hashtable<String,String> iterateThroughPsiElements(AnActionEvent e, ArrayList<String> filteredList){
+    public Hashtable<String,ArrayList<String>> iterateThroughPsiElements(AnActionEvent e, ArrayList<String> filteredList){
         // will store the clashes and their locations
         // make name key and location value
-        Hashtable<String,String> table = new Hashtable<>();
+        Hashtable<String,ArrayList<String>> table1 = new Hashtable<>();
 
         // get the psi elements from the project src directory
         // in other words, get the directories located in src
@@ -122,45 +131,39 @@ public class DePaCoGAction extends com.intellij.openapi.actionSystem.AnAction {
             for(PsiElement fileFromDir: subDirs){
                 String fileText = fileFromDir.getText();
 
-                //CALL THE FUNCTION TO CHECK FOR CLASHES HERE*****************
+                //check for clashes
                 ArrayList<String> nameClashList = nameClashes(fileText,filteredList);
                 if(nameClashList != null){
                     for(String s : nameClashList){
-                        System.out.println(fileFromDir.getContainingFile().getName());
-                        table.put(s, fileFromDir.getContainingFile().getName());
+                        // if the key does not exist yet create array
+                        if(table1.get(s) == null){
+                            table1.put(s,new ArrayList<>());
+                        }
+                        table1.get(s).add(fileFromDir.getContainingFile().getName() + " from " + fileFromDir.getContainingFile().getParent().getName());
                     }
                 }
             }
         }
 
         // check if table is populated (with clashes)
-        if(!table.isEmpty()){
-            return table;
+        if(!table1.isEmpty()){
+            return table1;
         }
         return null;
     }
 
     /*
-    gets the param positions of the important parameters
+    filters out the important names from the input parameters
+    according to the design pattern. Builder does not use subclasses
+    so it was excluded from using subclasses
      */
-    private ArrayList<Integer> getImportantPositions(String selectedDesPat,ArrayList<String> params){
-        switch(selectedDesPat){
-            case "1":
-                return AbstractFactory.getImportantParamPos(params);
-//            case "2":
-//                return Builder
-        }
-        return null;
-    }
-
-    /*
-    gets the corresponding design patterns important parameters
-     */
-    private ArrayList<String> getImportantDesPatParams(ArrayList<String> paramsList,String selectedDesPat){
-        ArrayList<Integer> positions = getImportantPositions(selectedDesPat,paramsList);
+    private ArrayList<String> getImportantDesPatParams(DesignPatternObj desPatObj,String selectedDesPat){
         ArrayList<String> filteredList = new ArrayList<>();
-        for(int i:positions){
-            filteredList.add(paramsList.get(i));
+        filteredList.add(desPatObj.getDesPatParams().get(0));
+        if(selectedDesPat.compareTo("2") != 0){
+            for(Container c: desPatObj.getSubClassList()){
+                filteredList.add(c.name);
+            }
         }
         return filteredList;
     }
@@ -229,15 +232,17 @@ public class DePaCoGAction extends com.intellij.openapi.actionSystem.AnAction {
     /*
     creates the error message according to what is given from the hashtable
      */
-    private String createNameClashErrMsg(Hashtable<String,String> clashHashTable){
-        String errMsg = "The following names are repeated in the following files from selected design pattern.\n" +
+    private String createNameClashErr(Hashtable<String,ArrayList<String>> clashHashTable){
+        String errMsg = "The following names are repeated in the following files based on selected design pattern and parameters.\n" +
                 "This may lead to other repeated files, please look at those along with default names!\n" +
                 "***This was added to the log***\n";
 
         // get the keys
         Set<String> names = clashHashTable.keySet();
         for(String keyName: names){
-            errMsg += keyName + " located in " + clashHashTable.get(keyName) + "\n";
+            for(String location: clashHashTable.get(keyName)){
+                errMsg += keyName + " located in " + location + "\n";
+            }
         }
 
         return errMsg;

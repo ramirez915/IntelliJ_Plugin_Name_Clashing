@@ -4,10 +4,7 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.uiDesigner.core.AbstractLayout;
 import com.intellij.util.ui.GridBag;
 import consts.MyConsts;
-import designPatterns.AbstractFactory;
-import designPatterns.Builder;
-import designPatterns.FactoryMethod;
-import designPatterns.Template;
+import designPatterns.*;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,26 +121,39 @@ public class DePaCoGPromptWindow extends DialogWrapper {
 
     path is passed in to know where to create the files
      */
-    protected void createSelectedDesignPattern(String selection,ArrayList<String> parameters,String path){
+    protected DesignPatternObj createSelectedDesignPattern(String selection, ArrayList<String> parameters, String path){
         try{
             switch(selection){
                 case "1":
-                    new AbstractFactory(parameters,path).createAbstractFactory();
-                    break;
+                    AbstractFactory absFactory = new AbstractFactory(parameters,path);
+                    absFactory.createAbstractFactory();
+                    return absFactory;
+//                    break;
                 case "2":
-                    new Builder(parameters,path).createBuilder();
-                    break;
+                    Builder builder = new Builder(parameters,path);
+                    builder.createBuilder();
+                    return builder;
+//                    new Builder(parameters,path).createBuilder();
+//                    break;
                 case "3":
-                    new FactoryMethod(parameters,path).createFactoryMethod();
-                    break;
+                    FactoryMethod factory = new FactoryMethod(parameters,path);
+                    factory.createFactoryMethod();
+                    return factory;
+//                    new FactoryMethod(parameters,path).createFactoryMethod();
+//                    break;
                 case "4":
-                    new Template(parameters,path).createTemplate();
-                    break;
+                    Template template = new Template(parameters,path);
+                    template.createTemplate();
+                    return template;
+//                    new Template(parameters,path).createTemplate();
+//                    break;
                 default:
                     logger.warn("Selected number {} yields a design pattern in config set to true but not in switch statement",selection);
+                    return null;
             }
         }catch(Exception e){
             logger.error("***Unable to create {} design pattern***",desPatMap.get(selection));
+            return null;
         }
     }
 }

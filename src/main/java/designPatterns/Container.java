@@ -60,4 +60,36 @@ public class Container {
         }
         this.text = String.format(this.text,(Object[]) paramListForFormat);     // needed to cast Object[] to not get warning...
     }
+
+    /*
+    gives the important positions based on the parameters given by the user
+     */
+    public static ArrayList<Integer> getImportantParamPos(ArrayList<String> params,String selectedDesPat){
+        ArrayList<Integer> positions = new ArrayList<>();
+        positions.add(0);       // all design patterns have this parameter
+        switch(selectedDesPat){
+            //Abstract Factory
+            case "1":
+//                positions.add(0);
+                for(int i = 2; i < params.size();i++){
+                    positions.add(i);
+                }
+                break;
+            //Builder
+            case "2":
+//                positions.add(0);
+                break;
+            //Factory Method
+            case "3":
+                break;
+            //Template
+            case "4":
+                for(int i = 4+Integer.parseInt(params.get(3));
+                    i < params.size();i++){
+                    positions.add(i);
+                }
+                break;
+        }
+        return positions;
+    }
 }
