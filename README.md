@@ -13,7 +13,16 @@ The plugin will be located under "Tools" on the menu bar
 In order for the name clashing functionality to work, make sure to select the src directory before using the plugin
 to create the new files for the design pattern otherwise the name clashing functionality would not work.
 
+#Important Notes
+The current implementation of this project does not allow...
+- the creation of all 8 design patterns initially required from the first assignment.
+- the check for the default value names
+does not include...
+- unit tests
 
+The current implementation of this project does allow...
+- the checking for repeated names in multiple files
+- the creation of 4 design patterns
 
 
 ## Evaluation criteria
